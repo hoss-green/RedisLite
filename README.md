@@ -11,6 +11,7 @@ This started as a small project challenge on codecrafters to test my skills with
 ### Current Compatability
 #### STRING
 | Command      | Implementation | Missing
+|--------------|----------------|-----------------------
 | APPEND       | Full           | None
 | DECR         | 0              | 
 | DECRBY       | 0              | 
