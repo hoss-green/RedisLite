@@ -25,7 +25,7 @@ func append(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand)
 
   }
 
-  dataObject.Value = fmt.Sprintf("{}{}", currenttext, appendvalue)
+  dataObject.Value = fmt.Sprintf("%s%s", currenttext, appendvalue)
   dataObject.ExpiryTimeNano = currentexpiry
 
 	server.DataStore.SetKvString(key, dataObject)
