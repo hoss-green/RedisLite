@@ -7,6 +7,9 @@ import (
 func BuildSimpleStringMsg(msg string) string {
 	return "+" + msg + "\r\n"
 }
+func BuildEmptyStringMsg() string {
+	return "$0\r\n\r\n"
+}
 
 func BuildIntMsg(number int) string {
 	return fmt.Sprintf(":%d\r\n", number)

@@ -17,31 +17,38 @@ import (
 func ParseCommand(connpointer *net.Conn, redisCommand data.RedisCommand, server *setup.Server) bool {
 	parserInfo := parserentities.ParserInfo{}
 	instruction := strings.ToUpper(redisCommand.Command)
-	// log.Println("Recieved: ", instruction)
 	if instruction == "EXIT" || instruction == "QUIT" {
 		return false
 	}
-	parserInfo = systemparser.ParseSystemCommand(connpointer, redisCommand, server)
+
+  parserInfo = systemparser.ParseSystemCommand(connpointer, redisCommand, server)
 	if parserInfo.Executed {
 		return true
+	}
+	if parserInfo.Err != nil {
+		goto parser
 	}
 	parserInfo = stringparser.ParseStringCommand(connpointer, redisCommand, server)
 	if parserInfo.Executed {
 		return true
 	}
+	if parserInfo.Err != nil {
+		goto parser
+	}
 	parserInfo = streamparser.ParseStreamCommand(connpointer, redisCommand, server)
 	if parserInfo.Executed {
 		return true
 	}
+parser:
 
 	if parserInfo.Err != nil {
-    log.Printf("Command Error: %s.\n\r", instruction)
-    err := parserInfo.Err
+		log.Printf("Command Error: %s.\n\r", instruction)
+		err := parserInfo.Err
 		protomessages.SendError(*connpointer, fmt.Sprintf("%s", err))
 		return true //keep looping anyway
 	}
 
-	unrec := fmt.Sprintf("Command not recognised: %s.\n", instruction)
+	unrec := fmt.Sprintf("Command not recognised: %s.", instruction)
 	log.Println(unrec)
 	protomessages.SendError(*connpointer, unrec)
 	return true

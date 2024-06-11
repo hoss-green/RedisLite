@@ -10,7 +10,7 @@ import (
 	"redislite/app/setup"
 )
 
-func append(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func sAppend(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
   dataItems := redisCommand.Params
   key := dataItems[0]
   appendvalue := dataItems[1]

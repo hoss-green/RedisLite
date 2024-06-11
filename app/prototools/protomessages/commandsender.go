@@ -13,6 +13,10 @@ func QuickSendSimpleString(conn net.Conn, msg string) error {
 	_, error := conn.Write([]byte(BuildSimpleStringMsg(msg)))
 	return error
 }
+func QuickSendEmptyString(conn net.Conn) error {
+	_, error := conn.Write([]byte(BuildEmptyStringMsg()))
+	return error
+}
 func QuickSendInt(conn net.Conn, number int) error {
 	_, error := conn.Write([]byte(BuildIntMsg(number)))
 	return error
