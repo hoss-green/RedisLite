@@ -30,16 +30,13 @@ This started as a small project challenge on codecrafters to test my skills with
 | STRLEN       | 90             | 
 | SUBSTR       | 100            | None
 
-#### Notes
+#### Notes (open todo or unfinished)
 | Command      | Notes  
 |--------------|-----------------------
-| APPEND       | 
 | DECR         | 
 | DECRBY       | 
-| GET          | 
 | GETDEL       | 
 | GETEX        | 
-| GETRANGE     | 
 | GETSET       | 
 | INCR         | 
 | INCRBY       | 
@@ -50,4 +47,3 @@ This started as a small project challenge on codecrafters to test my skills with
 | SET          | Missing Parameter options 
 | SETRANGE     | 
 | STRLEN       | Does not return an error if the type is wrong 
-| SUBSTR       |  
