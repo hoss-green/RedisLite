@@ -4,30 +4,32 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strings"
-
-	"redislite/app/commands/parsers/cmdparsers"
+	"redislite/app/commands/parsers/cmdparsers/streamparser"
+	"redislite/app/commands/parsers/cmdparsers/stringparser"
+	"redislite/app/commands/parsers/cmdparsers/systemparser"
+	"redislite/app/commands/parsers/parserentities"
 	"redislite/app/data"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
+	"strings"
 )
 
 func ParseCommand(connpointer *net.Conn, redisCommand data.RedisCommand, server *setup.Server) bool {
-	parserInfo := cmdparsers.ParserInfo{}
+	parserInfo := parserentities.ParserInfo{}
 	instruction := strings.ToUpper(redisCommand.Command)
 	// log.Println("Recieved: ", instruction)
 	if instruction == "EXIT" || instruction == "QUIT" {
 		return false
 	}
-	parserInfo = cmdparsers.ParseSystemCommand(connpointer, redisCommand, server)
+	parserInfo = systemparser.ParseSystemCommand(connpointer, redisCommand, server)
 	if parserInfo.Executed {
 		return true
 	}
-	parserInfo = cmdparsers.ParseStringCommand(connpointer, redisCommand, server)
+	parserInfo = stringparser.ParseStringCommand(connpointer, redisCommand, server)
 	if parserInfo.Executed {
 		return true
 	}
-	parserInfo = cmdparsers.ParseStreamCommand(connpointer, redisCommand, server)
+	parserInfo = streamparser.ParseStreamCommand(connpointer, redisCommand, server)
 	if parserInfo.Executed {
 		return true
 	}

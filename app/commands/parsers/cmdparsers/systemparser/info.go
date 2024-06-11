@@ -1,4 +1,4 @@
-package instructions
+package systemparser 
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"redislite/app/setup"
 )
 
-func Info(conn net.Conn, serverSettings setup.ServerSettings, section string) error {
+func info(conn net.Conn, serverSettings setup.ServerSettings, section string) error {
 	infoParams := make(map[string]string)
 	infoParams["role"] = getrole(serverSettings)
 	infoParams["port"] = fmt.Sprintf("%d", serverSettings.Port)

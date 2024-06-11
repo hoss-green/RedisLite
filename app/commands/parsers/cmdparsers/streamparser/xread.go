@@ -1,4 +1,4 @@
-package instructions
+package streamparser 
 
 import (
 	"errors"
@@ -20,7 +20,7 @@ type streamPair struct {
 	StartId string
 }
 
-func XRead(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func xread(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	//redis-cli XREAD block 2000 some_key 1526985054069 1526985054079
 	var blockTimeMs int64 = -1
 	var err error

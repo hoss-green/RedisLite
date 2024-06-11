@@ -1,4 +1,4 @@
-package instructions
+package systemparser 
 
 import (
 	"errors"
@@ -9,7 +9,7 @@ import (
 	"redislite/app/setup"
 )
 
-func Psync(conn net.Conn, serverSettings setup.ServerSettings) (net.Conn, error) {
+func psync(conn net.Conn, serverSettings setup.ServerSettings) (net.Conn, error) {
 	println("Configuring Psync")
 	response := fmt.Sprintf("+FULLRESYNC %s %d\r\n", serverSettings.MasterReplId, serverSettings.MasterReplIdOffset)
 	conn.Write([]byte(response))

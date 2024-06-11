@@ -1,4 +1,4 @@
-package instructions
+package systemparser 
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ import (
 	"redislite/app/setup"
 )
 
-func ReplConf(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func replconf(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	command := strings.ToUpper(redisCommand.Params[0])
 	switch command {
 	case "LISTENING-PORT":

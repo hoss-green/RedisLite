@@ -1,4 +1,4 @@
-package instructions
+package stringparser
 
 import (
 	"net"
@@ -10,7 +10,7 @@ import (
 	"redislite/app/setup"
 )
 
-func Set(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func set(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
   dataItems := redisCommand.Params
 	dataObject := kvstring.KvString{}
 	dataObject.Value = dataItems[1]

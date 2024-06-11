@@ -1,4 +1,4 @@
-package instructions
+package systemparser 
 
 import (
 	"net"
@@ -8,7 +8,7 @@ import (
 	"redislite/app/setup"
 )
 
-func Ping(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func ping(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	server.RecievedCounter.AddBytes(redisCommand.MessageBytes)
 	if !server.Settings.Master {
 		return nil

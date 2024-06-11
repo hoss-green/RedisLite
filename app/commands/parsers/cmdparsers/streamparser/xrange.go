@@ -1,4 +1,4 @@
-package instructions
+package streamparser 
 
 import (
 	"log"
@@ -9,7 +9,7 @@ import (
 	"redislite/app/setup"
 )
 
-func XRange(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func xrange(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	//                 streamkey starttime    endtime
 	//redis-cli XRANGE some_key 1526985054069 1526985054079
 	dataItems := redisCommand.Params

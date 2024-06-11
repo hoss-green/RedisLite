@@ -1,7 +1,6 @@
-package instructions
+package streamparser 
 
 import (
-	// "log"
 	"net"
 	"strings"
 	"time"
@@ -12,7 +11,7 @@ import (
 	"redislite/app/setup"
 )
 
-func XAdd(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func xadd(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	dataItems := redisCommand.Params
 	streamName := dataItems[0]
 	key := dataItems[1]

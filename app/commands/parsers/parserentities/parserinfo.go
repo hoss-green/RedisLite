@@ -1,4 +1,4 @@
-package cmdparsers
+package parserentities 
 
 type ParserInfo struct {
 	Executed bool

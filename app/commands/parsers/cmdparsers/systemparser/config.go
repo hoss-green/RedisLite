@@ -1,4 +1,4 @@
-package instructions
+package systemparser 
 
 import (
 	"net"
@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func Config(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func config(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	switch strings.ToUpper(redisCommand.Params[0]) {
 	case "GET":
 		switch strings.ToUpper(redisCommand.Params[1]) {

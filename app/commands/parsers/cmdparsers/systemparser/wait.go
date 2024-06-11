@@ -1,4 +1,4 @@
-package instructions
+package systemparser 
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func Wait(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func wait(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	log.Println("WAIT start")
 	replicacount, err := strconv.Atoi(redisCommand.Params[0])
 	if err != nil {

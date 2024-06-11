@@ -1,13 +1,14 @@
-package instructions
+package stringparser
 
 import (
 	"net"
+	"time"
 
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
 )
 
-func Get(conn net.Conn, server *setup.Server, key string) error {
+func get(conn net.Conn, server *setup.Server, key string) error {
 	dataObject, ok := server.DataStore.GetKvString(key)
 
 	if !ok || expired(dataObject.ExpiryTimeNano) {
@@ -15,4 +16,8 @@ func Get(conn net.Conn, server *setup.Server, key string) error {
 	}
 
 	return protomessages.QuickSendBulkString(conn, dataObject.Value)
+}
+
+func expired(expirytime int64) bool {
+	return expirytime != 0 && time.Now().UTC().UnixNano() > expirytime
 }

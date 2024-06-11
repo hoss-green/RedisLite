@@ -1,14 +1,13 @@
-package instructions
+package systemparser 
 
 import (
 	"net"
-
 	"redislite/app/data"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
 )
 
-func Keys(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func keys(conn net.Conn, server *setup.Server, _ data.RedisCommand) error {
 	keys := []string{}
 	for k := range server.Rdb.KVPairs {
 		keys = append(keys, k)
