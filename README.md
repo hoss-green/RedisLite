@@ -17,7 +17,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | GET          | 100            | None
 | GETDEL       | 0              | 
 | GETEX        | 0              | 
-| GETRANGE     | 100            | 
+| GETRANGE     | 100            | None
 | GETSET       | 0              | 
 | INCR         | 0              | 
 | INCRBY       | 0              | 
@@ -28,7 +28,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | SET          | 85             | XX NX KEEPTTL GET
 | SETRANGE     | 0              | 
 | STRLEN       | 90             | 
-| SUBSTR       | 100            | 
+| SUBSTR       | 100            | None
 
 #### Notes
 | Command      | Notes  
