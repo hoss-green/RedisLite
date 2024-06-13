@@ -4,9 +4,9 @@ import (
 	"errors"
 	"net"
 	"strings"
-	"time"
 
 	"redislite/app/commands/errormessages"
+	"redislite/app/commands/parsers/cmdparsers/stringparser/addsub"
 	"redislite/app/commands/parsers/parserentities"
 	"redislite/app/data"
 	"redislite/app/setup"
@@ -54,6 +54,30 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			break
 		}
 		err = sAppend(conn, server, redisCommand)
+	case "DECR":
+		if redisCommand.ParamLength != 1 {
+			err = errors.New(errormessages.IncorrectArgumentsError)
+			break
+		}
+		err = addsub.Decr(conn, server, redisCommand)
+	case "DECRBY":
+		if redisCommand.ParamLength != 2 {
+			err = errors.New(errormessages.IncorrectArgumentsError)
+			break
+		}
+		err = addsub.Decrby(conn, server, redisCommand)
+	case "INCR":
+		if redisCommand.ParamLength != 1 {
+			err = errors.New(errormessages.IncorrectArgumentsError)
+			break
+		}
+		err = addsub.Incr(conn, server, redisCommand)
+	case "INCRBY":
+		if redisCommand.ParamLength != 2 {
+			err = errors.New(errormessages.IncorrectArgumentsError)
+			break
+		}
+		err = addsub.Incrby(conn, server, redisCommand)
 	default:
 		return parserentities.ParserInfo{Executed: false, Err: nil}
 	}
@@ -65,6 +89,3 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 	return parserentities.ParserInfo{Executed: true, Err: nil}
 }
 
-func expired(expirytime int64) bool {
-	return expirytime != 0 && time.Now().UTC().UnixNano() > expirytime
-}

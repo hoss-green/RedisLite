@@ -25,7 +25,7 @@ func wait(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) e
 	server.RecievedCounter.AddBytes(redisCommand.MessageBytes)
 	if len(server.Replicas) == 0 ||
 		server.DataStore.CountKvString() == 0 {
-		return protomessages.QuickSendInt(conn, len(server.Replicas))
+		return protomessages.QuickSendInt(conn, int64(len(server.Replicas)))
 	}
 
 	var acks int
@@ -45,7 +45,7 @@ loop:
 			break loop
 		}
 	}
-	return protomessages.QuickSendInt(conn, acks)
+	return protomessages.QuickSendInt(conn, int64(acks))
 }
 
 func checkAck(replica net.Conn, index int) {

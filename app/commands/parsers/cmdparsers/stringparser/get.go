@@ -2,6 +2,7 @@ package stringparser
 
 import (
 	"net"
+	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
@@ -11,7 +12,7 @@ func get(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) er
   key := redisCommand.Params[0]
 	dataObject, ok := server.DataStore.GetKvString(key)
 
-	if !ok || expired(dataObject.ExpiryTimeNano) {
+	if !ok || utils.Expired(dataObject.ExpiryTimeNano) {
 		return protomessages.QuickSendNil(conn)
 	}
 

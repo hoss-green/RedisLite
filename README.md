@@ -12,15 +12,15 @@ This started as a small project challenge on codecrafters to test my skills with
 | Command      | Implementation | Missing
 |--------------|----------------|-----------------------
 | APPEND       | 100            | None
-| DECR         | 0              | 
-| DECRBY       | 0              | 
+| DECR         | 90             | 
+| DECRBY       | 90             | 
 | GET          | 100            | None
 | GETDEL       | 0              | 
 | GETEX        | 0              | 
 | GETRANGE     | 100            | None
 | GETSET       | 0              | 
-| INCR         | 0              | 
-| INCRBY       | 0              | 
+| INCR         | 90             | 
+| INCRBY       | 90             | 
 | INCRBYFLOAT  | 0              | 
 | LCS          | 0              | 
 | MGET         | 0              | 
@@ -33,13 +33,13 @@ This started as a small project challenge on codecrafters to test my skills with
 #### Notes (open todo or unfinished)
 | Command      | Notes  
 |--------------|-----------------------
-| DECR         | 
-| DECRBY       | 
+| DECR         | Allows overflow
+| DECRBY       | Allows overflow
 | GETDEL       | 
 | GETEX        | 
 | GETSET       | 
-| INCR         | 
-| INCRBY       | 
+| INCR         | Allows overflow 
+| INCRBY       | Allows overflow
 | INCRBYFLOAT  | 
 | LCS          | 
 | MGET         | 

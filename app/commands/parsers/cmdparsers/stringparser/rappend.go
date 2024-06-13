@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"net"
 
+	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
 	"redislite/app/prototools/protomessages"
+
 	// "redislite/app/prototools/protomessages"
 	"redislite/app/setup"
 )
@@ -18,7 +20,7 @@ func sAppend(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand
 
   currenttext := ""
   var currentexpiry int64 = 0
-	if ok && !expired(dataObject.ExpiryTimeNano) {
+	if ok && !utils.Expired(dataObject.ExpiryTimeNano) {
 		currenttext = dataObject.Value
     currentexpiry = dataObject.ExpiryTimeNano
 	} else {
@@ -35,5 +37,5 @@ func sAppend(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand
 	// }
 	//
 	// return protomessages.QuickSendBulkString(conn, dataObject.Value)
-  return protomessages.QuickSendInt(conn, len(dataObject.Value))
+  return protomessages.QuickSendInt(conn, int64(len(dataObject.Value)))
 }

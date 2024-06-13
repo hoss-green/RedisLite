@@ -17,7 +17,7 @@ func QuickSendEmptyString(conn net.Conn) error {
 	_, error := conn.Write([]byte(BuildEmptyStringMsg()))
 	return error
 }
-func QuickSendInt(conn net.Conn, number int) error {
+func QuickSendInt(conn net.Conn, number int64) error {
 	_, error := conn.Write([]byte(BuildIntMsg(number)))
 	return error
 }

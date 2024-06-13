@@ -11,7 +11,7 @@ func BuildEmptyStringMsg() string {
 	return "$0\r\n\r\n"
 }
 
-func BuildIntMsg(number int) string {
+func BuildIntMsg(number int64) string {
 	return fmt.Sprintf(":%d\r\n", number)
 }
 
