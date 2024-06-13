@@ -30,6 +30,12 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			break
 		}
 		err = get(conn, server, redisCommand)
+	case "GETSET":
+		if redisCommand.ParamLength != 2 {
+			err = errors.New(errormessages.IncorrectArgumentsError)
+			break
+		}
+		err = getset(conn, server, redisCommand)
 	case "STRLEN":
 		if redisCommand.ParamLength != 1 {
 			err = errors.New(errormessages.IncorrectArgumentsError)

@@ -18,7 +18,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | GETDEL       | 0              | 
 | GETEX        | 0              | 
 | GETRANGE     | 100            | None
-| GETSET       | 0              | 
+| GETSET       | 100            | 
 | INCR         | 90             | 
 | INCRBY       | 90             | 
 | INCRBYFLOAT  | 0              | 
@@ -37,7 +37,6 @@ This started as a small project challenge on codecrafters to test my skills with
 | DECRBY       | Allows overflow
 | GETDEL       | 
 | GETEX        | 
-| GETSET       | 
 | INCR         | Allows overflow 
 | INCRBY       | Allows overflow
 | INCRBYFLOAT  | 
