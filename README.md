@@ -15,7 +15,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | DECR         | 90             | 
 | DECRBY       | 90             | 
 | GET          | 100            | None
-| GETDEL       | 0              | 
+| GETDEL       | 100            | 
 | GETEX        | 0              | 
 | GETRANGE     | 100            | None
 | GETSET       | 100            | 
@@ -29,6 +29,9 @@ This started as a small project challenge on codecrafters to test my skills with
 | SETRANGE     | 0              | 
 | STRLEN       | 90             | 
 | SUBSTR       | 100            | None
+|              |                |      
+|--------------|----------------|-----------------------
+| *TOTAL* (18) | 63%            |
 
 #### Notes (open todo or unfinished)
 | Command      | Notes  
