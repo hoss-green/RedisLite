@@ -1,4 +1,4 @@
-package stringparser
+package multi 
 
 import (
 	"net"
@@ -9,7 +9,7 @@ import (
 	"redislite/app/setup"
 )
 
-func mset(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func MSet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	dataItems := redisCommand.Params
 	if len(dataItems)%2 != 0 {
 		return protomessages.QuickSendError(conn, "ERR wrong number of arguments for command")

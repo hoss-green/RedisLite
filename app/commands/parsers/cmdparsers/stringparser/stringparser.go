@@ -7,6 +7,9 @@ import (
 
 	"redislite/app/commands/errormessages"
 	"redislite/app/commands/parsers/cmdparsers/stringparser/addsub"
+	"redislite/app/commands/parsers/cmdparsers/stringparser/doget"
+	"redislite/app/commands/parsers/cmdparsers/stringparser/doset"
+	"redislite/app/commands/parsers/cmdparsers/stringparser/multi"
 	"redislite/app/commands/parsers/parserentities"
 	"redislite/app/data"
 	"redislite/app/setup"
@@ -41,7 +44,7 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			err = errors.New(errormessages.IncorrectArgumentsError)
 			break
 		}
-		err = get(conn, server, redisCommand)
+		err = doget.Get(conn, server, redisCommand)
 	case "GETRANGE":
 		if redisCommand.ParamLength != 3 {
 			err = errors.New(errormessages.IncorrectArgumentsError)
@@ -53,13 +56,13 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			err = errors.New(errormessages.IncorrectArgumentsError)
 			break
 		}
-		err = getdel(conn, server, redisCommand)
+		err = doget.GetDel(conn, server, redisCommand)
 	case "GETSET":
 		if redisCommand.ParamLength != 2 {
 			err = errors.New(errormessages.IncorrectArgumentsError)
 			break
 		}
-		err = getset(conn, server, redisCommand)
+		err = doget.GetSet(conn, server, redisCommand)
 	case "INCR":
 		if redisCommand.ParamLength != 1 {
 			err = errors.New(errormessages.IncorrectArgumentsError)
@@ -77,19 +80,19 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			err = errors.New(errormessages.IncorrectArgumentsError)
 			break
 		}
-		err = mget(conn, server, redisCommand)
+		err = multi.MGet(conn, server, redisCommand)
 	case "MSET":
 		if redisCommand.ParamLength < 2 {
 			err = errors.New(errormessages.IncorrectArgumentsError)
 			break
 		}
-		err = mset(conn, server, redisCommand)
+		err = multi.MSet(conn, server, redisCommand)
 	case "SET":
 		if redisCommand.ParamLength < 2 {
 			err = errors.New(errormessages.IncorrectArgumentsError)
 			break
 		}
-		err = set(conn, server, redisCommand)
+		err = doset.Set(conn, server, redisCommand)
 	case "STRLEN":
 		if redisCommand.ParamLength != 1 {
 			err = errors.New(errormessages.IncorrectArgumentsError)

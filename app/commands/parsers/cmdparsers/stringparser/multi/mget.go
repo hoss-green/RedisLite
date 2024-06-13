@@ -1,4 +1,4 @@
-package stringparser
+package multi 
 
 import (
 	"net"
@@ -8,7 +8,7 @@ import (
 	"redislite/app/setup"
 )
 
-func mget(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func MGet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	responses := []string{}
 
 	for _, key := range redisCommand.Params {

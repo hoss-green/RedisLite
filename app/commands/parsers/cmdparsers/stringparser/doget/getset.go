@@ -1,4 +1,4 @@
-package stringparser
+package doget 
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ import (
 	"redislite/app/setup"
 )
 
-func getset(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func GetSet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	key := redisCommand.Params[0]
 	dataObject, err := server.DataStore.GetKvString(key)
 	response := ""
@@ -33,8 +33,4 @@ func getset(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand)
 	server.RecievedCounter.AddBytes(redisCommand.MessageBytes)
 
 	return protomessages.QuickSendMessage(conn, response)
-	// if server.Settings.Master { return protomessages.QuickSendMessage(conn, response)
-	// }
-	// return nil
-
 }
