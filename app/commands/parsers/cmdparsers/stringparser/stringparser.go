@@ -78,6 +78,12 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			break
 		}
 		err = mget(conn, server, redisCommand)
+	case "MSET":
+		if redisCommand.ParamLength < 2 {
+			err = errors.New(errormessages.IncorrectArgumentsError)
+			break
+		}
+		err = mset(conn, server, redisCommand)
 	case "SET":
 		if redisCommand.ParamLength < 2 {
 			err = errors.New(errormessages.IncorrectArgumentsError)

@@ -8,15 +8,22 @@ import (
 )
 
 func (s *DataStore) SetKvString(key string, dataObject kvstring.KvString) {
-	k := strings.ToUpper(key)
+  s.SetKvStrings([]string{key}, []kvstring.KvString{dataObject})
+}
+
+func (s *DataStore) SetKvStrings(keys []string, dataObjects []kvstring.KvString) {
 	datalock.Lock()
-	dataObject.Key = k
-	di := &DataItem{
-		key:      k,
-		dataType: datatypes.DATA_TYPE_STRING,
-		value:    dataObject,
+	for index := 0; index < len(keys); index++ {
+		dataObject := dataObjects[index]
+		k := strings.ToUpper(keys[index])
+		dataObject.Key = k
+		di := &DataItem{
+			key:      k,
+			dataType: datatypes.DATA_TYPE_STRING,
+			value:    dataObject,
+		}
+		(*s.items)[k] = *di
 	}
-	(*s.items)[k] = *di
 	datalock.Unlock()
 }
 
@@ -34,8 +41,8 @@ func (s *DataStore) GetKvString(key string) (kvstring.KvString, bool) {
 func (s *DataStore) DelKvString(key string) {
 	k := strings.ToUpper(key)
 	datalock.Lock()
-  delete((*s.items), k)
-  datalock.Unlock()
+	delete((*s.items), k)
+	datalock.Unlock()
 }
 
 func (s *DataStore) CountKvString() int {

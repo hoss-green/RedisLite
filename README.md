@@ -23,8 +23,8 @@ This started as a small project challenge on codecrafters to test my skills with
 | INCRBY       | 90             | 
 | INCRBYFLOAT  | 0              | 
 | LCS          | 0              | 
-| MGET         | 0              | 
-| MSET         | 0              | 
+| MGET         | 100            | 
+| MSET         | 100            | 
 | SET          | 85             | XX NX KEEPTTL GET
 | SETRANGE     | 0              | 
 | STRLEN       | 90             | 
