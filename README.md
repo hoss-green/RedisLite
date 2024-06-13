@@ -29,9 +29,8 @@ This started as a small project challenge on codecrafters to test my skills with
 | SETRANGE     | 0              | 
 | STRLEN       | 90             | 
 | SUBSTR       | 100            | None
-|              |                |      
-|--------------|----------------|-----------------------
-| *TOTAL* (18) | 63%            |
+|              |                |
+| __TOTAL__ (18) | 63%            |
 
 #### Notes (open todo or unfinished)
 | Command      | Notes  
