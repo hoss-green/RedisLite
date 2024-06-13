@@ -25,12 +25,12 @@ This started as a small project challenge on codecrafters to test my skills with
 | LCS             | 0              | 100 
 | MGET            | 100            | 
 | MSET            | 100            | 
-| SET             | 85             | XX NX KEEPTTL GET
+| SET             | 100            | 
 | SETRANGE        | 0              | 100
 | STRLEN          | 100            | 
 | SUBSTR          | 100            | 
 |                 |                |
-| __TOTAL__ (18)  | 76.95%         |
+| __TOTAL__ (18)  | 77.8%          |
 
 #### Notes (open todo or unfinished)
 | Command      | Notes  
@@ -38,5 +38,4 @@ This started as a small project challenge on codecrafters to test my skills with
 | GETEX        | 
 | INCRBYFLOAT  | 
 | LCS          | 
-| SET          | Missing Parameter options 
 | SETRANGE     | 
