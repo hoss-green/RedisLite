@@ -24,7 +24,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | INCRBYFLOAT     | 0              | 100 
 | LCS             | 0              | 100 
 | MGET            | 100            | 
-| MSET            | 100            | 100 
+| MSET            | 100            | 
 | SET             | 85             | XX NX KEEPTTL GET
 | SETRANGE        | 0              | 100
 | STRLEN          | 100            | 
