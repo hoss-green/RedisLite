@@ -10,7 +10,7 @@ import (
 	"redislite/app/setup"
 )
 
-func doGet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, doDelete bool) error {
+func doGet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, getParamList getParamList) error {
 	key := redisCommand.Params[0]
 	dataObject, err := server.DataStore.GetKvString(key)
 
@@ -22,8 +22,19 @@ func doGet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, 
 		return protomessages.QuickSendNil(conn)
 	}
 	value := dataObject.Value
-	if doDelete {
+	if getParamList.delete {
 		server.DataStore.DelKvString(key)
 	}
+
+  if getParamList.persist {
+    dataObject.ExpiryTimeNano = 0
+    server.DataStore.SetKvString(key, dataObject)
+  }
+
+  if getParamList.hasExpiry {
+    dataObject.ExpiryTimeNano = getParamList.expiry
+    server.DataStore.SetKvString(key, dataObject)
+  }
+
 	return protomessages.QuickSendBulkString(conn, value)
 }

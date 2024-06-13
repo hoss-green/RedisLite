@@ -1,4 +1,4 @@
-package getset 
+package getset
 
 import (
 	"errors"
@@ -12,7 +12,6 @@ import (
 	"redislite/app/setup"
 )
 
-
 func doSet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, setParams paramList) error {
 	dataItems := redisCommand.Params
 	dataObject := kvstring.KvString{}
@@ -20,17 +19,14 @@ func doSet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, 
 	dataObject.Value = dataItems[1]
 	keyExists := false
 	oldObject := kvstring.KvString{}
-	if setParams.get || setParams.setInstruction != NormalSetType {
-		var err error
-		oldObject, err = server.DataStore.GetKvString(key)
-		var tiErr *datatyperrors.WrongtypeError
-		if err != nil || utils.Expired(dataObject.ExpiryTimeNano) {
-			typeError := errors.As(err, &tiErr)
-			keyExists = !typeError
-		} else {
-			keyExists = true
-		}
-
+	var err error
+	oldObject, err = server.DataStore.GetKvString(key)
+	var tiErr *datatyperrors.WrongtypeError
+	if err != nil || utils.Expired(dataObject.ExpiryTimeNano) {
+		typeError := errors.As(err, &tiErr)
+		keyExists = !typeError
+	} else {
+		keyExists = true
 	}
 
 	if keyExists && setParams.setInstruction == NXSetIfKeyNotExist {
@@ -40,10 +36,17 @@ func doSet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, 
 		return protomessages.QuickSendNil(conn)
 	}
 
+  
+
+
 	if setParams.hasExpiry {
 		dataObject.ExpiryTimeNano = setParams.expiry
-	}
+	} else if setParams.keepttl {
+    dataObject.ExpiryTimeNano = oldObject.ExpiryTimeNano
+  }
 	//set all the shit here
+
+
 
 	server.DataStore.SetKvString(dataItems[0], dataObject)
 	server.RecievedCounter.AddBytes(redisCommand.MessageBytes)
