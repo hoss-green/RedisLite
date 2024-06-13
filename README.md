@@ -6,6 +6,8 @@ This started as a small project challenge on codecrafters to test my skills with
 
 ### Roadmap
 1. Complete the String functions
+2. Branch and create an event loop to give options on execution styles
+3. Fix the memory leak with not deleted expired keys
 
 ### Current Compatability
 #### STRING
@@ -16,7 +18,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | DECRBY          | 100            | 
 | GET             | 100            |
 | GETDEL          | 100            | 
-| GETEX           | 0              | 100 
+| GETEX           | 100            | 
 | GETRANGE        | 100            | 
 | GETSET          | 100            | 
 | INCR            | 100            | 
@@ -30,7 +32,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | STRLEN          | 100            | 
 | SUBSTR          | 100            | 
 |                 |                |
-| __TOTAL__ (18)  | 77.8%          |
+| __TOTAL__ (18)  | 83.3%          |
 
 #### Notes (open todo or unfinished)
 | Command      | Notes  
