@@ -31,15 +31,11 @@ func (s *DataStore) GetKvString(key string) (kvstring.KvString, bool) {
 	return di.value.(kvstring.KvString), ok
 }
 
-func (s *DataStore) DelKvString(key string) (kvstring.KvString, bool) {
+func (s *DataStore) DelKvString(key string) {
 	k := strings.ToUpper(key)
-	datalock.RLock()
-	di, ok := (*s.items)[k]
-	datalock.RUnlock()
-	if !ok {
-		return kvstring.KvString{}, false
-	}
-	return di.value.(kvstring.KvString), ok
+	datalock.Lock()
+  delete((*s.items), k)
+  datalock.Unlock()
 }
 
 func (s *DataStore) CountKvString() int {
