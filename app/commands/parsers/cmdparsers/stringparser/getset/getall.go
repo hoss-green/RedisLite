@@ -1,4 +1,4 @@
-package doget
+package getset
 
 import (
 	"errors"
