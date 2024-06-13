@@ -36,7 +36,7 @@ func QuickSendBulkString(conn net.Conn, msg string) error {
 	return error
 }
 
-func SendError(conn net.Conn, errmsg string) error {
+func QuickSendError(conn net.Conn, errmsg string) error {
 	_, error := conn.Write([]byte(BuildErrorMsg(errmsg)))
 	return error
 }

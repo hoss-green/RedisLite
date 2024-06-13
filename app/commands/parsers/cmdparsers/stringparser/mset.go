@@ -12,7 +12,7 @@ import (
 func mset(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	dataItems := redisCommand.Params
 	if len(dataItems)%2 != 0 {
-		return protomessages.SendError(conn, "ERR wrong number of arguments for command")
+		return protomessages.QuickSendError(conn, "ERR wrong number of arguments for command")
 	}
 
 	//this is horrible, must fix

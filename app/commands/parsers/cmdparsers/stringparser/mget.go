@@ -12,8 +12,8 @@ func mget(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) e
 	responses := []string{}
 
 	for _, key := range redisCommand.Params {
-		dataObject, ok := server.DataStore.GetKvString(key)
-		if !ok || utils.Expired(dataObject.ExpiryTimeNano) {
+		dataObject, err := server.DataStore.GetKvString(key)
+		if err != nil || utils.Expired(dataObject.ExpiryTimeNano) {
 			responses = append(responses, protomessages.BuildNilMsg())
 		} else {
 			responses = append(responses, protomessages.BuildBulkStringMsg(dataObject.Value))

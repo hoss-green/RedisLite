@@ -44,12 +44,12 @@ parser:
 	if parserInfo.Err != nil {
 		log.Printf("Command Error: %s.\n\r", instruction)
 		err := parserInfo.Err
-		protomessages.SendError(*connpointer, fmt.Sprintf("%s", err))
+		protomessages.QuickSendError(*connpointer, fmt.Sprintf("%s", err))
 		return true //keep looping anyway
 	}
 
 	unrec := fmt.Sprintf("Command not recognised: %s.", instruction)
 	log.Println(unrec)
-	protomessages.SendError(*connpointer, unrec)
+	protomessages.QuickSendError(*connpointer, unrec)
 	return true
 }

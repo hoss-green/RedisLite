@@ -5,6 +5,7 @@ import (
 	"net"
 	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
+	"redislite/app/data/storage/datatyperrors"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
 	"strconv"
@@ -24,8 +25,13 @@ func substr(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand)
 		return protomessages.QuickSendEmptyString(conn)
 	}
 
-	dataObject, ok := server.DataStore.GetKvString(key)
-	if !ok || utils.Expired(dataObject.ExpiryTimeNano) {
+	dataObject, err := server.DataStore.GetKvString(key)
+	if err != nil || utils.Expired(dataObject.ExpiryTimeNano) {
+    var tiErr *datatyperrors.WrongtypeError
+		if errors.As(err, &tiErr) {
+      return protomessages.QuickSendError(conn, tiErr.Error())
+		}
+
 		return protomessages.QuickSendEmptyString(conn)
 	}
 

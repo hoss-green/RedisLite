@@ -4,11 +4,12 @@ import (
 	"strings"
 
 	"redislite/app/data/datatypes/kvstring"
+	"redislite/app/data/storage/datatyperrors"
 	"redislite/app/data/storage/datatypes"
 )
 
 func (s *DataStore) SetKvString(key string, dataObject kvstring.KvString) {
-  s.SetKvStrings([]string{key}, []kvstring.KvString{dataObject})
+	s.SetKvStrings([]string{key}, []kvstring.KvString{dataObject})
 }
 
 func (s *DataStore) SetKvStrings(keys []string, dataObjects []kvstring.KvString) {
@@ -27,15 +28,18 @@ func (s *DataStore) SetKvStrings(keys []string, dataObjects []kvstring.KvString)
 	datalock.Unlock()
 }
 
-func (s *DataStore) GetKvString(key string) (kvstring.KvString, bool) {
+func (s *DataStore) GetKvString(key string) (kvstring.KvString, error) {
 	k := strings.ToUpper(key)
 	datalock.RLock()
 	di, ok := (*s.items)[k]
 	datalock.RUnlock()
 	if !ok {
-		return kvstring.KvString{}, false
+		return kvstring.KvString{}, &datatyperrors.KeyNotFoundError{}
 	}
-	return di.value.(kvstring.KvString), ok
+	if di.dataType != datatypes.DATA_TYPE_STRING {
+		return kvstring.KvString{}, &datatyperrors.WrongtypeError{}
+	}
+	return di.value.(kvstring.KvString), nil
 }
 
 func (s *DataStore) DelKvString(key string) {
