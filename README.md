@@ -2,14 +2,24 @@
 A small compact Redis written in go.
 
 ### Origin
-This started as a small project challenge on codecrafters to test my skills with GO. I'm in the process of polishing, tidying up, and adding in the extra functions. 
+This started as a small project challenge on codecrafters to test my skills with GO, I completed the initial challenge in 5 days. I'm in the process of polishing, tidying up, and adding in the missing string and some core functions. 
 
 ### Roadmap
 1. Complete the String functions
-2. Branch and create an event loop to give options on execution styles
-3. Fix the memory leak with not deleted expired keys
+2. Add in the core general commands DEL, COPY, EXISTS
+3. Branch and create an event loop in branch to give options on execution styles
+4. Fix the memory leak with not deleted expired keys
 
 ### Current Compatability
+#### GENERAL
+| Command         | Implementation | Missing
+|-----------------|----------------|-----------------------
+| DEL             | 0              | 100 
+| COPY            | 0              | 100 
+| EXISTS          | 0              | 100 
+|                 |                |
+| __TOTAL__ (3)   | 0%             |
+
 #### STRING
 | Command         | Implementation | Missing
 |-----------------|----------------|-----------------------
@@ -32,7 +42,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | STRLEN          | 100            | 
 | SUBSTR          | 100            | 
 |                 |                |
-| __TOTAL__ (18)  | 83.3%          |
+| __TOTAL__ (18)  | 88.9%          |
 
 #### Notes (dnf or unfinished)
 | Command      | Notes  
