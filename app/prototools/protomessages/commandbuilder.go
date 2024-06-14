@@ -1,4 +1,4 @@
-package protomessages 
+package protomessages
 
 import (
 	"fmt"
@@ -20,7 +20,7 @@ func BuildNilMsg() string {
 }
 
 func BuildBulkStringMsg(msg string) string {
-	return "$" + fmt.Sprint(len(msg)) + "\r\n" + msg + "\r\n"
+  return fmt.Sprintf("$%d\r\n%s\r\n", len(msg), msg)
 }
 
 func BuildErrorMsg(errmsg string) string {

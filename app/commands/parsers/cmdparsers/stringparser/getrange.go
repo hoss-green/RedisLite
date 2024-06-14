@@ -11,7 +11,7 @@ import (
 	"strconv"
 )
 
-func substr(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
+func getrange(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	params := redisCommand.Params
 	key := params[0]
 

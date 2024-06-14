@@ -38,11 +38,11 @@ This started as a small project challenge on codecrafters to test my skills with
 | MGET            | 100            | 
 | MSET            | 100            | 
 | SET             | 100            | 
-| SETRANGE        | 0              | 100
+| SETRANGE        | 100            |
 | STRLEN          | 100            | 
 | SUBSTR          | 100            | 
 |                 |                |
-| __TOTAL__ (18)  | 88.9%          |
+| __TOTAL__ (18)  | 94.4%          |
 
 #### Notes (dnf or unfinished)
 | Command      | Notes  

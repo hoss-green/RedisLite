@@ -56,7 +56,7 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			err = errors.New(errormessages.IncorrectArgumentsError)
 			break
 		}
-		err = substr(conn, server, redisCommand)
+		err = getrange(conn, server, redisCommand)
 	case "GETDEL":
 		if redisCommand.ParamLength != 1 {
 			err = errors.New(errormessages.IncorrectArgumentsError)
@@ -105,6 +105,12 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			break
 		}
 		err = doset.Set(conn, server, redisCommand)
+	case "SETRANGE":
+		if redisCommand.ParamLength != 3 {
+			err = errors.New(errormessages.IncorrectArgumentsError)
+			break
+		}
+		err = setrange(conn, server, redisCommand)
 	case "STRLEN":
 		if redisCommand.ParamLength != 1 {
 			err = errors.New(errormessages.IncorrectArgumentsError)
@@ -116,7 +122,7 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			err = errors.New(errormessages.IncorrectArgumentsError)
 			break
 		}
-		err = substr(conn, server, redisCommand)
+		err = getrange(conn, server, redisCommand)
 	default:
 		return parserentities.ParserInfo{Executed: false, Err: nil}
 	}
