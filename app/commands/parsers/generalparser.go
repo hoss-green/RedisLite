@@ -39,13 +39,6 @@ func ParseCommand(connpointer *net.Conn, redisCommand data.RedisCommand, server 
 	if parserInfo.Executed {
 		return true
 	}
-	// if parserInfo.Err != nil {
-	// 	goto parser
-	// }
-	// parserInfo = streamparser.ParseStreamCommand(connpointer, redisCommand, server)
-	// if parserInfo.Executed {
-	// 	return true
-	// }
 parser:
 
 	if parserInfo.Err != nil {

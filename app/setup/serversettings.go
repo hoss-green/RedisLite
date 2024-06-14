@@ -10,16 +10,10 @@ import (
 	"strings"
 
 	"redislite/app/data"
-	"redislite/app/data/datatypes/kvstream"
 	"redislite/app/data/storage"
 	"redislite/app/persistence"
 )
 
-type KvStreamChannel struct {
-	StreamName string
-	Data kvstream.KvStreamData
-  AddedTime int64
-}
 type ServerSettings struct {
 	Host               string
 	Port               int
@@ -39,7 +33,6 @@ type Server struct {
 	RecievedCounter *data.ByteCounter
 	Rdb             persistence.RdbFile
 	AckChannel      chan bool
-	StreamChannel   chan KvStreamChannel 
 }
 
 func CreateServer() *Server {
@@ -58,7 +51,6 @@ func CreateServer() *Server {
 		RecievedCounter: &data.ByteCounter{},
 		Rdb:             rdb,
 		AckChannel:      make(chan bool),
-		StreamChannel:   make(chan KvStreamChannel),
 	}
 }
 
