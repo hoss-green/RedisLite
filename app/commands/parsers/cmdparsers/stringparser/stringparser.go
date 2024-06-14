@@ -81,6 +81,12 @@ func ParseStringCommand(connpointer *net.Conn, redisCommand data.RedisCommand, s
 			break
 		}
 		err = addsub.Incrby(conn, server, redisCommand)
+	case "INCRBYFLOAT":
+		if redisCommand.ParamLength != 2 {
+			err = errors.New(errormessages.IncorrectArgumentsError)
+			break
+		}
+		err = addsub.IncrbyFloat(conn, server, redisCommand)
 	case "MGET":
 		if redisCommand.ParamLength < 1 {
 			err = errors.New(errormessages.IncorrectArgumentsError)

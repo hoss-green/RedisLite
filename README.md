@@ -23,7 +23,7 @@ This started as a small project challenge on codecrafters to test my skills with
 | GETSET          | 100            | 
 | INCR            | 100            | 
 | INCRBY          | 100            | 
-| INCRBYFLOAT     | 0              | 100 
+| INCRBYFLOAT     | 100            | 
 | LCS             | 0              | 100 
 | MGET            | 100            | 
 | MSET            | 100            | 
@@ -34,10 +34,13 @@ This started as a small project challenge on codecrafters to test my skills with
 |                 |                |
 | __TOTAL__ (18)  | 83.3%          |
 
-#### Notes (open todo or unfinished)
+#### Notes (dnf or unfinished)
 | Command      | Notes  
 |--------------|-----------------------
-| GETEX        | 
-| INCRBYFLOAT  | 
+| DECR         | calculation overflow allowed (dnf)
+| DECRBY       | calculation overflow allowed (dnf)
+| INCR         | calculation overflow allowed (dnf)
+| INCRBY       | calculation overflow allowed (dnf)
+| INCRBYFLOAT  | calculation overflow allowed (dnf)
 | LCS          | 
 | SETRANGE     | 

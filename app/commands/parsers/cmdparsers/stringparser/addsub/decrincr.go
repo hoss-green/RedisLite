@@ -25,6 +25,7 @@ func Decrby(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand)
 func Incr(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	return addsubtract(conn, server, redisCommand, false, "1")
 }
+
 func Incrby(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) error {
 	return addsubtract(conn, server, redisCommand, false, redisCommand.Params[1])
 }
