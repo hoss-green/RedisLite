@@ -16,7 +16,7 @@ func MGet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) e
 		if err != nil || utils.Expired(dataObject.ExpiryTimeNano) {
 			responses = append(responses, protomessages.BuildNilMsg())
 		} else {
-			responses = append(responses, protomessages.BuildBulkStringMsg(dataObject.Value))
+			responses = append(responses, protomessages.BuildBulkStringMsg(string(dataObject.Value)))
 		}
 	}
 

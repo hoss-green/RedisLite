@@ -2,13 +2,11 @@ package storage
 
 import (
 	"sync"
-
-	"redislite/app/data/datatypes/kvstring"
 )
 
 type Storage struct {
 	// KvStrings KvStringContainer
-	KvStreams KvStreamContainer // map[string]kvstream.KvStream
+	// KvStreams KvStreamContainer // map[string]kvstream.KvStream
 }
 
 var kvstreamlock sync.RWMutex
@@ -24,14 +22,14 @@ func CreateDataStorage() Storage {
     // KvStore: CreateKvStore(),
     // kvContainer: KvContainer{},
 		// KvStrings: CreateKvStringContainer(),
-		KvStreams: CreateKvStreamContainer(),
+		// KvStreams: CreateKvStreamContainer(),
 	}
 }
 
-func (s *Storage) LoadFromDb(data map[string]kvstring.KvString) {
+func (s *Storage) LoadFromDb(data map[string]DataItem) {
 	// kvstringlock.Lock()
 	// s.KvStrings = CreateKvStringContainerWithData(data)
-	s.KvStreams = CreateKvStreamContainer()
+	// s.KvStreams = CreateKvStreamContainer()
 	// kvstringlock.Unlock()
 }
 

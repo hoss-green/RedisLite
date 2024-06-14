@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"redislite/app/commands/parsers/cmdparsers/streamparser"
+	"redislite/app/commands/parsers/cmdparsers/genericparser"
 	"redislite/app/commands/parsers/cmdparsers/stringparser"
 	"redislite/app/commands/parsers/cmdparsers/systemparser"
 	"redislite/app/commands/parsers/parserentities"
@@ -28,17 +28,24 @@ func ParseCommand(connpointer *net.Conn, redisCommand data.RedisCommand, server 
 	if parserInfo.Err != nil {
 		goto parser
 	}
-	parserInfo = stringparser.ParseStringCommand(connpointer, redisCommand, server)
+	parserInfo = genericparser.ParseGenericCommand(connpointer, redisCommand, server)
 	if parserInfo.Executed {
 		return true
 	}
 	if parserInfo.Err != nil {
 		goto parser
 	}
-	parserInfo = streamparser.ParseStreamCommand(connpointer, redisCommand, server)
+	parserInfo = stringparser.ParseStringCommand(connpointer, redisCommand, server)
 	if parserInfo.Executed {
 		return true
 	}
+	// if parserInfo.Err != nil {
+	// 	goto parser
+	// }
+	// parserInfo = streamparser.ParseStreamCommand(connpointer, redisCommand, server)
+	// if parserInfo.Executed {
+	// 	return true
+	// }
 parser:
 
 	if parserInfo.Err != nil {

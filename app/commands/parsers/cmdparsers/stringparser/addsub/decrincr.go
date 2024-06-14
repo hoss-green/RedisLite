@@ -6,7 +6,7 @@ import (
 	"net"
 	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
-	"redislite/app/data/datatypes/kvstring"
+	"redislite/app/data/storage"
 	"redislite/app/data/storage/datatyperrors"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
@@ -48,16 +48,20 @@ func addsubtract(conn net.Conn, server *setup.Server, redisCommand data.RedisCom
 		if errors.As(err, &tiErr) {
       return protomessages.QuickSendError(conn, err.Error())
 		}
-		dataObject = kvstring.KvString{
-			Value: value,
-		}
+    dataObject = storage.DataItem {
+      Value: []byte(value),
+    }
+		// dataObject = kvstring.KvString{
+		// 	Value: string(value)
+		// }
 	} else {
-		oldvalue, err = strconv.ParseInt(dataObject.Value, 10, 64)
-		if err != nil || (len(dataObject.Value) > 1 && strings.HasPrefix(dataObject.Value, "0")) {
+    stringVal := string(dataObject.Value)
+		oldvalue, err = strconv.ParseInt(stringVal, 10, 64)
+		if err != nil || (len(dataObject.Value) > 1 && strings.HasPrefix(stringVal, "0")) {
 			return protomessages.QuickSendError(conn, "value is not an integer or out of range")
 		}
 
-		dataObject.Value = fmt.Sprintf("%d", oldvalue+newvalue)
+		dataObject.Value = []byte(fmt.Sprintf("%d", oldvalue+newvalue))
 	}
 
 	server.DataStore.SetKvString(key, dataObject)

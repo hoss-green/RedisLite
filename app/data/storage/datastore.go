@@ -1,13 +1,9 @@
 package storage
 
 import (
-	// "log"
+	"redislite/app/data/storage/datatypes"
 	"strings"
 	"sync"
-
-	"redislite/app/data/datatypes/kvstream"
-	"redislite/app/data/datatypes/kvstring"
-	"redislite/app/data/storage/datatypes"
 )
 
 var datalock sync.RWMutex
@@ -19,7 +15,22 @@ type DataStore struct {
 type DataItem struct {
 	key      string
 	dataType datatypes.DataType
-	value    any
+	// Value    any
+	Value          []byte
+	ExpiryTimeNano int64
+}
+
+func CreateDataItem(key string, dataType datatypes.DataType, value []byte, expiryTimeNano int64) DataItem {
+	return DataItem{
+		key:            key,
+		dataType:       dataType,
+		Value:          value,
+		ExpiryTimeNano: expiryTimeNano,
+	}
+}
+
+func (di *DataItem) GetKey() string {
+	return di.key
 }
 
 func CreateKvStore() DataStore {
@@ -29,16 +40,17 @@ func CreateKvStore() DataStore {
 	}
 }
 
-func (s *DataStore) LoadFromDb(data map[string]kvstring.KvString) {
+func (s *DataStore) LoadFromDb(data map[string]DataItem) {
 	datalock.Lock()
 	for k, v := range data {
-    key := strings.ToUpper(k)
+		// key := strings.ToUpper(k)
 		di := &DataItem{
-			key:      key,
+			key:      k,
 			dataType: datatypes.DATA_TYPE_STRING,
-			value:    v,
+			Value:    []byte(v.Value),
+			// ExpiryTimeNano: v.ExpiryTimeNano,
 		}
-		(*s.items)[key] = *di
+		(*s.items)[k] = *di
 	}
 	datalock.Unlock()
 	// kvstringlock.Unlock()
@@ -63,9 +75,9 @@ func (s *DataStore) KvType(key string) string {
 	}
 }
 
-func (s *DataStore) GetKvStream(key string) (kvstream.KvStream, bool) {
-	datalock.RLock()
-	di, ok := (*s.items)[key]
-	datalock.RUnlock()
-	return di.value.(kvstream.KvStream), ok
-}
+// func (s *DataStore) GetKvStream(key string) (kvstream.KvStream, bool) {
+// 	datalock.RLock()
+// 	di, ok := (*s.items)[key]
+// 	datalock.RUnlock()
+// 	return di.value.(kvstream.KvStream), ok
+// }

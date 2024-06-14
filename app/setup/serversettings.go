@@ -48,7 +48,7 @@ func CreateServer() *Server {
 	rdb := persistence.RdbFile{}
 	if settings.DbFilename != "" {
 		rdb = persistence.ReadRdbFromFile(settings.DbFilename, settings.Dir)
-		datastore.LoadFromDb(rdb.KVPairs)
+		datastore.LoadFromDb(rdb.DataItems)
 	}
 
 	return &Server{

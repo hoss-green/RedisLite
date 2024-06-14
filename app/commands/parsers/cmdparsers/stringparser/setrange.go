@@ -3,7 +3,6 @@ package stringparser
 import (
 	"errors"
 	"net"
-	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
 	"redislite/app/data/storage/datatyperrors"
 	"redislite/app/prototools/protomessages"
@@ -30,14 +29,14 @@ func setrange(conn net.Conn, server *setup.Server, redisCommand data.RedisComman
 	}
 
 	dataObject, err := server.DataStore.GetKvString(key)
-	if err != nil || utils.Expired(dataObject.ExpiryTimeNano) {
+	if err != nil {
 		var tiErr *datatyperrors.WrongtypeError
 		if errors.As(err, &tiErr) {
 			return protomessages.QuickSendError(conn, tiErr.Error())
 		}
 	}
 
-	currentVal := []rune(dataObject.Value)
+	currentVal := []rune(string(dataObject.Value))
 	currentValLen := int64(len(currentVal))
 
 	newArrayLength := from + int64(replacementStringLen)
@@ -69,8 +68,8 @@ func setrange(conn net.Conn, server *setup.Server, redisCommand data.RedisComman
 		count += 1
 	}
 
-	dataObject.Value = string(currentVal)
-	server.DataStore.SetKvString(dataObject.Key, dataObject)
+	dataObject.Value = []byte(string(currentVal))
+	server.DataStore.SetKvString(dataObject.GetKey(), dataObject)
 
 	return protomessages.QuickSendInt(conn, currentValLen)
 }

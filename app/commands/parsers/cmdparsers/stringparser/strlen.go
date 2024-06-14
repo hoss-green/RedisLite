@@ -4,7 +4,6 @@ import (
 	"errors"
 	"net"
 
-	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
 	"redislite/app/data/storage/datatyperrors"
 	"redislite/app/prototools/protomessages"
@@ -15,7 +14,7 @@ func strlen(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand)
   key := redisCommand.Params[0]
 	dataObject, err := server.DataStore.GetKvString(key)
 
-	if err != nil || utils.Expired(dataObject.ExpiryTimeNano) {
+	if err != nil  {
 		var tiErr *datatyperrors.WrongtypeError
 		if errors.As(err, &tiErr) {
 			return protomessages.QuickSendError(conn, tiErr.Error())
@@ -23,6 +22,6 @@ func strlen(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand)
 		return protomessages.QuickSendInt(conn, 0)
 	}
 
-		return protomessages.QuickSendInt(conn, int64(len(dataObject.Value)))
+		return protomessages.QuickSendInt(conn, int64(len(string(dataObject.Value))))
 }
 

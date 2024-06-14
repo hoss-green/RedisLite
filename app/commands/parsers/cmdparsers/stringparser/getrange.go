@@ -27,9 +27,9 @@ func getrange(conn net.Conn, server *setup.Server, redisCommand data.RedisComman
 
 	dataObject, err := server.DataStore.GetKvString(key)
 	if err != nil || utils.Expired(dataObject.ExpiryTimeNano) {
-    var tiErr *datatyperrors.WrongtypeError
+		var tiErr *datatyperrors.WrongtypeError
 		if errors.As(err, &tiErr) {
-      return protomessages.QuickSendError(conn, tiErr.Error())
+			return protomessages.QuickSendError(conn, tiErr.Error())
 		}
 
 		return protomessages.QuickSendEmptyString(conn)
@@ -41,13 +41,13 @@ func getrange(conn net.Conn, server *setup.Server, redisCommand data.RedisComman
 		if from < 0 {
 			from = 0
 		}
-		return protomessages.QuickSendBulkString(conn, dataObject.Value[from:limitmax(maxlen, to + 1)])
+		return protomessages.QuickSendBulkString(conn, string(dataObject.Value)[from:limitmax(maxlen, to+1)])
 	}
 	if from < 0 && to < 0 && from <= to {
 		if from < -maxlen {
 			from = -maxlen
 		}
-		return protomessages.QuickSendBulkString(conn, dataObject.Value[maxlen+from:maxlen+to+1])
+		return protomessages.QuickSendBulkString(conn, string(dataObject.Value)[maxlen+from:maxlen+to+1])
 	}
 
 	return protomessages.QuickSendEmptyString(conn)

@@ -1,10 +1,10 @@
-package multi 
+package multi
 
 import (
 	"net"
 
 	"redislite/app/data"
-	"redislite/app/data/datatypes/kvstring"
+	"redislite/app/data/storage"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
 )
@@ -17,11 +17,11 @@ func MSet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand) e
 
 	//this is horrible, must fix
 	keys := []string{}
-	dataObjects := []kvstring.KvString{}
+	dataObjects := []storage.DataItem{}// []kvstring.KvString{}
 	for index := 0; index < len(dataItems)-1; index++ {
-		dataObject := kvstring.KvString{}
+		dataObject := storage.DataItem{}//kvstring.KvString{}
 		key := dataItems[index]
-		dataObject.Value = dataItems[index+1]
+		dataObject.Value = []byte(dataItems[index+1])
 		keys = append(keys, key)
 		dataObjects = append(dataObjects, dataObject)
 	}

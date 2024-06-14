@@ -36,5 +36,5 @@ func doGet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, 
     server.DataStore.SetKvString(key, dataObject)
   }
 
-	return protomessages.QuickSendBulkString(conn, value)
+	return protomessages.QuickSendBulkString(conn, string(value))
 }

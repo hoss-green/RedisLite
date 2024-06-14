@@ -3,8 +3,6 @@ package stringparser
 import (
 	"fmt"
 	"net"
-
-	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
@@ -18,14 +16,14 @@ func sAppend(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand
 
 	currenttext := ""
 	var currentexpiry int64 = 0
-	if err == nil && !utils.Expired(dataObject.ExpiryTimeNano) {
-		currenttext = dataObject.Value
-		currentexpiry = dataObject.ExpiryTimeNano
+	if err != nil {
 	} else {
+		currenttext = string(dataObject.Value)
+		currentexpiry = dataObject.ExpiryTimeNano
 
 	}
 
-	dataObject.Value = fmt.Sprintf("%s%s", currenttext, appendvalue)
+	dataObject.Value = []byte(fmt.Sprintf("%s%s", currenttext, appendvalue))
 	dataObject.ExpiryTimeNano = currentexpiry
 
 	server.DataStore.SetKvString(key, dataObject)

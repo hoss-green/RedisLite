@@ -5,14 +5,14 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"log"
+	"redislite/app/data/storage"
+	"redislite/app/data/storage/datatypes"
 	"time"
-
-	"redislite/app/data/datatypes/kvstring"
 )
 
 func decodeRdb(rdbFileBytes []byte) RdbFile {
 	rdbFile := RdbFile{
-		KVPairs: make(map[string]kvstring.KvString),
+		DataItems: make(map[string]storage.DataItem),
 	}
 	log.Println(hex.EncodeToString(rdbFileBytes))
 	fileLen := len(rdbFileBytes)
@@ -59,19 +59,19 @@ rdbloop:
 				secBytes := rdbFileBytes[index+1 : index+5]
 				expiryBuffer := bytes.NewReader(secBytes)
 				var nowVar int32
-        err := binary.Read(expiryBuffer, binary.LittleEndian, &nowVar)
-        if err != nil {
-          log.Fatal("FD Time set incorrectly")
-        }
+				err := binary.Read(expiryBuffer, binary.LittleEndian, &nowVar)
+				if err != nil {
+					log.Fatal("FD Time set incorrectly")
+				}
 				expiry = int64(nowVar)
 				index += 5
 			case EXPIRETIMEMS:
 				msBytes := rdbFileBytes[index+1 : index+9]
 				expiryBuffer := bytes.NewReader(msBytes)
-        err := binary.Read(expiryBuffer, binary.LittleEndian, &expiry)
-        if err != nil {
-          log.Fatal("FE Time set incorrectly")
-        }
+				err := binary.Read(expiryBuffer, binary.LittleEndian, &expiry)
+				if err != nil {
+					log.Fatal("FE Time set incorrectly")
+				}
 				index += 9
 			}
 			key, val, totLen, err := ReadKvPairAndSkip(rdbFileBytes[index:])
@@ -85,10 +85,12 @@ rdbloop:
 				log.Println("EXP: ", exptime)
 				log.Println("KEY: ", key)
 				log.Println("VAL: ", val)
-				rdbFile.KVPairs[key] = kvstring.KvString{
-					Value:          val,
-					ExpiryTimeNano: exptime.UnixNano(),
-				}
+				rdbFile.DataItems[key] = storage.CreateDataItem(key, datatypes.DATA_TYPE_STRING, []byte(val), exptime.UnixNano())
+				// storage.DataItem{
+				// 	Key:   key,
+				// 	Value: val,
+				// 	// ExpiryTimeNano: exptime.UnixNano(),
+				// }
 				index += totLen
 			}
 		}
@@ -126,9 +128,3 @@ func readBytes(startIndex int, filebytes []byte) (int, []byte) {
 	log.Printf("Read from %d to %d", startIndex, counter)
 	return counter, sectionBytes
 }
-
-// func decodebytes(input []byte) []byte {
-// 	output := []byte{}
-//
-// 	return output
-// }

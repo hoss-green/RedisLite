@@ -1,12 +1,11 @@
 package persistence
 
-import (
-	"redislite/app/data/datatypes/kvstring"
-)
+import "redislite/app/data/storage"
+
 
 type RdbFile struct {
 	RawContents []byte
-	KVPairs     map[string]kvstring.KvString
+	DataItems     map[string]storage.DataItem
 }
 
 func ReadRdbFromFile(filename string, filedir string) RdbFile {
@@ -14,7 +13,7 @@ func ReadRdbFromFile(filename string, filedir string) RdbFile {
 
 	if err != nil {
     return RdbFile {
-      KVPairs: map[string]kvstring.KvString{},
+      DataItems: map[string]storage.DataItem{},
     }
 
 	}

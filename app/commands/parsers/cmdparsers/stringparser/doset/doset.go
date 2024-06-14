@@ -6,7 +6,7 @@ import (
 	"net"
 	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
-	"redislite/app/data/datatypes/kvstring"
+	"redislite/app/data/storage"
 	"redislite/app/data/storage/datatyperrors"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
@@ -14,11 +14,11 @@ import (
 
 func doSet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, setParams paramList) error {
 	dataItems := redisCommand.Params
-	dataObject := kvstring.KvString{}
+	dataObject := storage.DataItem{}
 	key := dataItems[0]
-	dataObject.Value = dataItems[1]
+	dataObject.Value = []byte(dataItems[1])
 	keyExists := false
-	oldObject := kvstring.KvString{}
+	oldObject := storage.DataItem{}
 	if setParams.get || setParams.setInstruction != NormalSetType {
 		var err error
 		oldObject, err = server.DataStore.GetKvString(key)
@@ -42,12 +42,11 @@ func doSet(conn net.Conn, server *setup.Server, redisCommand data.RedisCommand, 
 	if setParams.hasExpiry {
 		dataObject.ExpiryTimeNano = setParams.expiry
 	}
-	//set all the shit here
 
 	server.DataStore.SetKvString(dataItems[0], dataObject)
 	server.RecievedCounter.AddBytes(redisCommand.MessageBytes)
 	if setParams.get {
-		return protomessages.QuickSendBulkString(conn, oldObject.Value)
+		return protomessages.QuickSendBulkString(conn, string(oldObject.Value))
 	}
 	return protomessages.QuickSendSimpleString(conn, "OK")
 	// if server.Settings.Master {

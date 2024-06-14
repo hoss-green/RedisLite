@@ -6,7 +6,7 @@ import (
 	"net"
 	"redislite/app/commands/parsers/utils"
 	"redislite/app/data"
-	"redislite/app/data/datatypes/kvstring"
+	"redislite/app/data/storage"
 	"redislite/app/data/storage/datatyperrors"
 	"redislite/app/prototools/protomessages"
 	"redislite/app/setup"
@@ -36,21 +36,21 @@ func addsubtractfloat(conn net.Conn, server *setup.Server, redisCommand data.Red
 		if errors.As(err, &tiErr) {
 			return protomessages.QuickSendError(conn, err.Error())
 		}
-		dataObject = kvstring.KvString{
-			Value: value,
+
+		dataObject = storage.DataItem{
+			Value: []byte(value),
 		}
 	} else {
-		oldvalue, err = strconv.ParseFloat(dataObject.Value, 64)
+		oldvalue, err = strconv.ParseFloat(string(dataObject.Value), 64)
 		if err != nil {
 			return protomessages.QuickSendError(conn, "value is not a valid float")
 		}
 
-		dataObject.Value = fmt.Sprintf("%f", oldvalue+newvalue)
+		dataObject.Value = []byte(fmt.Sprintf("%f", oldvalue+newvalue))
 	}
 
 	server.DataStore.SetKvString(key, dataObject)
 	server.RecievedCounter.AddBytes(redisCommand.MessageBytes)
 
 	return protomessages.QuickSendBulkString(conn, fmt.Sprintf("%f", oldvalue+newvalue))
-	// return protomessages.QuickSendInt(conn, oldvalue+newvalue)
 }

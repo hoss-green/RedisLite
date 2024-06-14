@@ -6,19 +6,28 @@ This started as a small project challenge on codecrafters to test my skills with
 
 ### Roadmap
 1. Complete the String functions
-2. Add in the core general commands DEL, COPY, EXISTS
+2. ~Add in the core general commands DEL, COPY, EXISTS~
+3. ~Move to []byte arrays the same as original redis, to allow support for more types~
 3. Branch and create an event loop in branch to give options on execution styles
 4. Fix the memory leak with not deleted expired keys
 
 ### Current Compatability
+| Section              | Implementation | Missing
+|----------------------|----------------|-----------------
+| __GENERAL__ (18)     | 100%           | 
+| __STRING__ (3)       | 94.4%          |   
+|                      |                | 
+| __TOTAL__ (18)       | 97.2%          |
+
+### Breakdown 
 #### GENERAL
 | Command         | Implementation | Missing
 |-----------------|----------------|-----------------------
-| DEL             | 0              | 100 
-| COPY            | 0              | 100 
-| EXISTS          | 0              | 100 
+| DEL             | 100            | 100 
+| COPY            | 100            | 100 
+| EXISTS          | 100            | 100 
 |                 |                |
-| __TOTAL__ (3)   | 0%             |
+| __TOTAL__ (3)   | 100%             |
 
 #### STRING
 | Command         | Implementation | Missing
@@ -44,7 +53,8 @@ This started as a small project challenge on codecrafters to test my skills with
 |                 |                |
 | __TOTAL__ (18)  | 94.4%          |
 
-#### Notes (dnf or unfinished)
+
+#### Differences Notes
 | Command      | Notes  
 |--------------|-----------------------
 | DECR         | calculation overflow allowed (dnf)
@@ -52,5 +62,4 @@ This started as a small project challenge on codecrafters to test my skills with
 | INCR         | calculation overflow allowed (dnf)
 | INCRBY       | calculation overflow allowed (dnf)
 | INCRBYFLOAT  | calculation overflow allowed (dnf)
-| LCS          | 
-| SETRANGE     | 
+| LCS          | unimplemented 

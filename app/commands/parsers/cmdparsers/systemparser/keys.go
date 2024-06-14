@@ -9,7 +9,7 @@ import (
 
 func keys(conn net.Conn, server *setup.Server, _ data.RedisCommand) error {
 	keys := []string{}
-	for k := range server.Rdb.KVPairs {
+	for k := range server.Rdb.DataItems {
 		keys = append(keys, k)
 	}
 	return protomessages.SendRespArray(conn, keys)

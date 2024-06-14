@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"time"
-
-	"redislite/app/data/datatypes/kvstring"
 )
 
 type KvStream struct {
@@ -15,7 +13,12 @@ type KvStream struct {
 
 type KvStreamData struct {
 	Id    KvStreamId
-	Items []kvstring.KvString
+	Items []KvPair
+}
+
+type KvPair struct {
+  Key            string
+	Value          string
 }
 
 type KvStreamId struct {
@@ -55,12 +58,12 @@ func (kvid KvStreamId) Compare(id KvStreamId) int {
 //
 // }
 
-func (kvs *KvStream) AppendItemAutoId(data []kvstring.KvString) (KvStreamData, error) {
+func (kvs *KvStream) AppendItemAutoId(data []KvPair) (KvStreamData, error) {
 	timestamp := time.Now().UTC().UnixMilli()
 	return kvs.AppendItemAutoSequence(timestamp, data)
 }
 
-func (kvs *KvStream) AppendItemAutoSequence(msTimestamp int64, data []kvstring.KvString) (KvStreamData, error) {
+func (kvs *KvStream) AppendItemAutoSequence(msTimestamp int64, data []KvPair) (KvStreamData, error) {
 	kvlen := len(*kvs.StreamData)
 	if kvlen > 0 {
 		lastElement := (*kvs.StreamData)[kvlen-1]
@@ -70,7 +73,7 @@ func (kvs *KvStream) AppendItemAutoSequence(msTimestamp int64, data []kvstring.K
 					Timestamp: msTimestamp,
 					Sequence:  lastElement.Id.Sequence + 1,
 				},
-				Items: []kvstring.KvString{},
+				Items: []KvPair{},
 			}
 			*kvs.StreamData = append(*kvs.StreamData, kvsd)
 			return kvsd, nil
@@ -87,7 +90,7 @@ func (kvs *KvStream) AppendItemAutoSequence(msTimestamp int64, data []kvstring.K
 			Timestamp: msTimestamp,
 			Sequence:  seq,
 		},
-		Items: []kvstring.KvString{},
+		Items: []KvPair{},
 	}
 	*kvs.StreamData = append(*kvs.StreamData, kvsd)
 
@@ -95,7 +98,7 @@ func (kvs *KvStream) AppendItemAutoSequence(msTimestamp int64, data []kvstring.K
 
 }
 
-func (kvs *KvStream) AppendItemFullExplicitId(msTimestamp int64, seq int64, data []kvstring.KvString) (KvStreamData, error) {
+func (kvs *KvStream) AppendItemFullExplicitId(msTimestamp int64, seq int64, data []KvPair) (KvStreamData, error) {
 	kvlen := len(*kvs.StreamData)
 	if msTimestamp == 0 && seq == 0 {
 		return KvStreamData{}, errors.New("ERR The ID specified in XADD must be greater than 0-0")
