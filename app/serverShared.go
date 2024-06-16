@@ -15,7 +15,7 @@ import (
 
 func handleInboundConnection(conn *net.Conn, server *setup.Server) {
 	defer (*conn).Close()
-	loop := true
+	// loop := true
 	firstrun := !server.Settings.Master
 	for {
 		inputlen, inputBuffer := readcomm(conn)
@@ -60,16 +60,17 @@ func handleInboundConnection(conn *net.Conn, server *setup.Server) {
 			}
 
 			log.Printf("CSC: %#v\r\n", redisCommand)
-			loop = parsers.ParseCommand(conn, redisCommand, server)
-			if !loop {
-				break
-
-			}
+      server.ClientChannel <- setup.Client{RedisCommand: redisCommand, ClientConnection: conn}
+			// loop = parsers.ParseCommand(conn, redisCommand, server)
+			// if !loop {
+			// 	break
+			//
+			// }
 		}
 
-		if !loop {
-			break
-		}
+		// if !loop {
+		// 	break
+		// }
 	}
 
 	log.Println("Connection Closed")

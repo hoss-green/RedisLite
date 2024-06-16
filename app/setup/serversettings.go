@@ -33,6 +33,7 @@ type Server struct {
 	RecievedCounter *data.ByteCounter
 	Rdb             persistence.RdbFile
 	AckChannel      chan bool
+  ClientChannel   chan Client
 }
 
 func CreateServer() *Server {
@@ -51,6 +52,7 @@ func CreateServer() *Server {
 		RecievedCounter: &data.ByteCounter{},
 		Rdb:             rdb,
 		AckChannel:      make(chan bool),
+    ClientChannel:   make(chan Client),
 	}
 }
 
@@ -70,7 +72,6 @@ func CreateServerSettings() ServerSettings {
 	flag.Parse()
 
 	serverSettings.Host = fmt.Sprintf("127.0.0.1:%d", serverSettings.Port)
-	// var masterconn *net.Conn
 	if replicaOf != "" {
 		log.Println("launching in REPLICA mode")
 		host, port, err := parseParamsForReplica(replicaOf)

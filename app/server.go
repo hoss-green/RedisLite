@@ -11,6 +11,7 @@ import (
 
 func main() {
 	server := setup.CreateServer()
+  go ProcessEventLoop(server)
 	log.SetFlags(0)
 	if !server.Settings.Master {
 		log.SetPrefix("REPLICA: ")

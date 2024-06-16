@@ -8,8 +8,8 @@ This started as a small project challenge on codecrafters to test my skills with
 1. Complete the String functions
 2. ~Add in the core general commands DEL, COPY, EXISTS~
 3. ~Move to []byte arrays the same as original redis, to allow support for more types~
-3. Branch and create an event loop in branch to give options on execution styles
-4. Fix the memory leak with not deleted expired keys
+3. ~Branch and create an event loop in branch to give options on execution styles~
+4. ~Fix the memory leak with not deleted expired keys~
 
 ### Current Compatability
 | Section              | Implementation | Missing

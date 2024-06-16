@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"redislite/app/commands/parsers/utils"
 	"redislite/app/data/storage/datatypes"
 	"strings"
 	"sync"
@@ -31,6 +32,19 @@ func CreateDataItem(key string, dataType datatypes.DataType, value []byte, expir
 
 func (di *DataItem) GetKey() string {
 	return di.key
+}
+
+func (s *DataStore) HandleExpired() {
+  delItems := []string{}
+  for k,v := range (*s.items) {
+    if utils.Expired(v.ExpiryTimeNano) {
+      delItems = append(delItems, k)
+    }
+  }
+
+  for index := 0; index < len(delItems); index ++ {
+    delete((*s.items), delItems[index])
+  }
 }
 
 func CreateKvStore() DataStore {
